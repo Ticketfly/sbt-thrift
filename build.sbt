@@ -1,11 +1,17 @@
-
 sbtPlugin := true
 
-organization := "com.github.bigtoast"
+organization := "com.ticketfly"
 
 name := "sbt-thrift"
 
-version := "0.6"
+version := "0.7-SNAPSHOT"
 
-publishTo := Some(Resolver.file("bigtoast.github.com", file(Path.userHome + "/Projects/BigToast/bigtoast.github.com/repo")))
+credentials += Credentials(Path.userHome / ".artifactory" / ".credentials" )
+
+publishTo := {
+  if ( version.value.trim.endsWith("SNAPSHOT") )
+    Some("tfly-snaps" at "http://build.ticketfly.com/artifactory/libs-snapshot-local")
+  else
+    Some("tfly-release" at "http://build.ticketfly.com/artifactory/libs-release-local")
+}
 
