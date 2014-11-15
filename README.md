@@ -6,7 +6,7 @@ Thrift plugin for sbt 0.13+
 
 Add the following to your `project/plugins.sbt`:
 
-    resolvers += "TFly Release" at "http://build.ticketfly.com/artifactory/libs-release"
+    resolvers += "tfly-scala" at "http://build.ticketfly.com/artifactory/libs-scala-release-local"
 
     addSbtPlugin("com.ticketfly" % "sbt-thrift" % "0.8")
 
