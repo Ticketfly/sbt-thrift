@@ -1,3 +1,6 @@
+[0.8] 11-2014
+  * Allow thrift -out option
+
 [0.7] 8-28-2013
   * branch for 2.10 and sbt 13 ( cross building isn't working )
   * merged in ruby bug fix
@@ -20,6 +23,6 @@
 	because it looks like Process run will run the process in a
 	different thread. This was causing some java files not to be
 	compiled in the first call to compile.
-	
+
 [0.2] 10.26.2011
  * Initial release

@@ -6,9 +6,9 @@ Thrift plugin for sbt 0.13+
 
 Add the following to your `project/plugins.sbt`:
 
-    resolvers += "bigtoast-github" at "http://bigtoast.github.com/repo/"
+    resolvers += "TFly Release" at "http://build.ticketfly.com/artifactory/libs-release"
 
-    addSbtPlugin("com.github.bigtoast" % "sbt-thrift" % "0.8")
+    addSbtPlugin("com.ticketfly" % "sbt-thrift" % "0.8")
 
 ### Step 2: Add sbt-thrift settings to your build
 
@@ -54,7 +54,11 @@ Or if you are using a build object extending from Build:
         </td></tr>
         <tr>
                 <td> <b>thriftOutputDir</b> </td>
-                <td>The output dir for the generated sources. This directory will be added to sourceManaged so it will be automatically get compiled when you run compile. This defaults to 'target/generated-sources'.</td>
+                <td>The output dir for the generated sources. This directory will be added to sourceManaged so it will be automatically get compiled when you run compile. This defaults to 'target/scala-2.11/managed-surces/main/get-java'.</td>
+        </tr>
+        <tr>
+            <td> <b>thriftOutDir</b> </td>
+            <td>Set Thrift -out option. Lets you set output directory without gen-* subdir. If set, overrides thriftOutputDir</td>
         </tr>
         <tr>
                 <td> <b>thriftJavaOptions</b> </td>
