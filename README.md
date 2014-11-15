@@ -8,7 +8,7 @@ Add the following to your `project/plugins.sbt`:
 
     resolvers += "tfly-scala" at "http://build.ticketfly.com/artifactory/libs-scala-release-local"
 
-    addSbtPlugin("com.ticketfly" % "sbt-thrift" % "0.8")
+    addSbtPlugin("com.ticketfly" % "sbt-thrift" % "0.8.2")
 
 ### Step 2: Add sbt-thrift settings to your build
 
