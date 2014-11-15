@@ -1,4 +1,4 @@
-Thrift plugin for sbt 0.12+
+Thrift plugin for sbt 0.13+
 ====================================
 
 # Instructions for use:
@@ -8,7 +8,7 @@ Add the following to your `project/plugins.sbt`:
 
     resolvers += "bigtoast-github" at "http://bigtoast.github.com/repo/"
 
-    addSbtPlugin("com.github.bigtoast" % "sbt-thrift" % "0.6")
+    addSbtPlugin("com.github.bigtoast" % "sbt-thrift" % "0.8")
 
 ### Step 2: Add sbt-thrift settings to your build
 
@@ -26,7 +26,7 @@ Or if you are using a build object extending from Build:
     import com.github.bigtoast.sbtthrift.ThriftPlugin
 
     class BuildWithThriftShiz extends Build {
-         lazy val seniorProject = Project("hola", file("."), settings = 
+         lazy val seniorProject = Project("hola", file("."), settings =
           Defaults.defaultSettings ++ ThriftPlugin.thriftSettings ++ Seq(/* custom settings go here */))
     }
 
