@@ -4,7 +4,7 @@ organization := "com.ticketfly"
 
 name := "sbt-thrift"
 
-version := "0.8"
+version := "0.8.1"
 
 credentials += Credentials(Path.userHome / ".artifactory" / ".credentials" )
 

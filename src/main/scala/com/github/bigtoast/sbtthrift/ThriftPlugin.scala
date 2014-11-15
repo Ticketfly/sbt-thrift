@@ -11,7 +11,7 @@ object ThriftPlugin extends Plugin {
   val thriftSourceDir = SettingKey[File]("source-directory", "Source directory for thrift files. Defaults to src/main/thrift")
   val thriftGenerate = TaskKey[Seq[File]]("generate-java", "Generate java sources from thrift files")
   val thriftOutputDir = SettingKey[File]("output-directory", "Directory where the java files should be placed. Defaults to sourceManaged")
-  val thriftOutDir = SettingKey[Option[File]]("output-directory", "Directory where the java files should be placed without gen-* subdir. See thrift -out option. Defaults to sourceManaged")
+  val thriftOutDir = SettingKey[Option[File]]("out-directory", "Directory where the java files should be placed without gen-* subdir. See thrift -out option. Defaults to sourceManaged")
   val thriftJavaOptions = SettingKey[Seq[String]]("thrift-java-options", "additional options for java thrift generation")
   val thriftJavaEnabled = SettingKey[Boolean]("java-enabled", "java generation is enabled. Default - yes")
 
