@@ -11,7 +11,6 @@ object ThriftPlugin extends Plugin {
   val thriftSourceDir = SettingKey[File]("source-directory", "Source directory for thrift files. Defaults to src/main/thrift")
   val thriftGenerate = TaskKey[Seq[File]]("generate-java", "Generate java sources from thrift files")
   val thriftOutputDir = SettingKey[File]("output-directory", "Directory where the java files should be placed. Defaults to sourceManaged")
-  val thriftOutDir = SettingKey[Option[File]]("out-directory", "Directory where the java files should be placed without gen-* subdir. See thrift -out option. Defaults to sourceManaged")
   val thriftJavaOptions = SettingKey[Seq[String]]("thrift-java-options", "additional options for java thrift generation")
   val thriftJavaEnabled = SettingKey[Boolean]("java-enabled", "java generation is enabled. Default - yes")
 
@@ -39,18 +38,16 @@ object ThriftPlugin extends Plugin {
 
     thriftOutputDir <<= (sourceManaged in Compile),
 
-    thriftOutDir := None,
-
     thriftJavaEnabled := true,
 
     thriftJavaOptions := Seq[String]("hashcode"),
 
     thriftJsOutputDir := new File("target/gen-js"),
 
-    thriftGenerate <<= (streams, thriftSourceDir, thriftOutputDir, thriftOutDir, thrift, thriftJavaOptions, thriftJavaEnabled, streams) map {
-      (out, sdir, odir, outdir, tbin, opts, enabled, str) =>
+    thriftGenerate <<= (streams, thriftSourceDir, thriftOutputDir, thrift, thriftJavaOptions, thriftJavaEnabled, streams) map {
+      (out, sdir, odir, tbin, opts, enabled, str) =>
         if (enabled) {
-          compileThrift(sdir, odir, outdir, tbin, "java", opts, out.log, str.cacheDirectory / "thirft")
+          compileThrift(sdir, odir, tbin, "java", opts, out.log, str.cacheDirectory / "thirft")
         } else {
           Seq[File]()
         }
@@ -60,10 +57,10 @@ object ThriftPlugin extends Plugin {
 
     thriftJsOptions := Seq[String](),
 
-    thriftGenerateJs <<= (streams, thriftSourceDir, thriftJsOutputDir, thriftOutDir, thrift, thriftJsOptions, thriftJsEnabled, streams) map {
-      (out, sdir, odir, outdir, tbin, opts, enabled, str) =>
+    thriftGenerateJs <<= (streams, thriftSourceDir, thriftJsOutputDir, thrift, thriftJsOptions, thriftJsEnabled, streams) map {
+      (out, sdir, odir, tbin, opts, enabled, str) =>
         if (enabled) {
-          compileThrift(sdir, odir, outdir, tbin, "js", opts, out.log, str.cacheDirectory / "thrift-js")
+          compileThrift(sdir, odir, tbin, "js", opts, out.log, str.cacheDirectory / "thrift-js")
         } else {
           Seq[File]()
         }
@@ -75,10 +72,10 @@ object ThriftPlugin extends Plugin {
 
     thriftRubyOutputDir := new File("target/gen-ruby"),
 
-    thriftGenerateRuby <<= (streams, thriftSourceDir, thriftOutputDir, thriftOutDir, thrift, thriftRubyOptions, thriftRubyEnabled, streams) map {
-      (out, sdir, odir, outdir, tbin, opts, enabled, str) =>
+    thriftGenerateRuby <<= (streams, thriftSourceDir, thriftOutputDir, thrift, thriftRubyOptions, thriftRubyEnabled, streams) map {
+      (out, sdir, odir, tbin, opts, enabled, str) =>
         if (enabled) {
-          compileThrift(sdir, odir, outdir, tbin, "rb", opts, out.log, str.cacheDirectory / "thrift-ruby")
+          compileThrift(sdir, odir, tbin, "rb", opts, out.log, str.cacheDirectory / "thrift-ruby")
         } else {
           Seq[File]()
         }
@@ -90,10 +87,10 @@ object ThriftPlugin extends Plugin {
 
     thriftPythonOutputDir := new File("target/gen-python"),
 
-    thriftGeneratePython <<= (streams, thriftSourceDir, thriftOutputDir, thriftOutDir, thrift, thriftPythonOptions, thriftPythonEnabled, streams) map {
-      (out, sdir, odir, outdir, tbin, opts, enabled, str) =>
+    thriftGeneratePython <<= (streams, thriftSourceDir, thriftOutputDir, thrift, thriftPythonOptions, thriftPythonEnabled, streams) map {
+      (out, sdir, odir, tbin, opts, enabled, str) =>
         if (enabled) {
-          compileThrift(sdir, odir, outdir, tbin, "py", opts, out.log, str.cacheDirectory / "thrift-python")
+          compileThrift(sdir, odir, tbin, "py", opts, out.log, str.cacheDirectory / "thrift-python")
         } else {
           Seq[File]()
         }
@@ -113,15 +110,10 @@ object ThriftPlugin extends Plugin {
   )
 
 
-  def compileThrift(sourceDir: File, oDir: File, outDir: Option[File], thriftBin: String,
-    language: String, options: Seq[String], logger: Logger, cache: File): Seq[File] = {
+  def compileThrift(sourceDir: File, outputDir: File, thriftBin: String, language: String, options: Seq[String], logger: Logger, cache: File): Seq[File] = {
 
-    val doIt = FileFunction.cached(cache, inStyle = FilesInfo.lastModified, outStyle = FilesInfo.exists) { files: Set[File] =>
-
-      val (outputDirOpt, outputDir) = outDir match {
-        case None => ("-o", oDir)
-        case Some(file) => ("-out", file)
-      }
+    val doIt = FileFunction.cached(cache, inStyle = FilesInfo.lastModified, outStyle = FilesInfo.exists) {
+      files: Set[File] =>
 
       if (!outputDir.exists) outputDir.mkdirs
 
@@ -129,7 +121,7 @@ object ThriftPlugin extends Plugin {
 
         val languageOpts = language + options.mkString(":", ",", "")
 
-        val cmd = s"$thriftBin -gen $languageOpts $outputDirOpt $outputDir $schema"
+        val cmd = s"$thriftBin -gen $languageOpts -out $outputDir $schema"
 
         logger.info("Compiling schema with command: %s" format cmd)
         <x>

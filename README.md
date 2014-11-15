@@ -54,11 +54,7 @@ Or if you are using a build object extending from Build:
         </td></tr>
         <tr>
                 <td> <b>thriftOutputDir</b> </td>
-                <td>The output dir for the generated sources. This directory will be added to sourceManaged so it will be automatically get compiled when you run compile. This defaults to 'target/scala-2.11/managed-surces/main/get-java'.</td>
-        </tr>
-        <tr>
-            <td> <b>thriftOutDir</b> </td>
-            <td>Set Thrift -out option. Lets you set output directory without gen-* subdir. If set, overrides thriftOutputDir</td>
+                <td>The output dir for the generated sources. This directory will be added to sourceManaged so it will be automatically get compiled when you run compile. This defaults to 'target/scala-2.11/managed-surces/main/'.</td>
         </tr>
         <tr>
                 <td> <b>thriftJavaOptions</b> </td>
