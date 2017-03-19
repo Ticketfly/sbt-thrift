@@ -47,7 +47,7 @@ object ThriftPlugin extends Plugin {
     thriftGenerate <<= (streams, thriftSourceDir, thriftOutputDir, thrift, thriftJavaOptions, thriftJavaEnabled, streams) map {
       (out, sdir, odir, tbin, opts, enabled, str) =>
         if (enabled) {
-          compileThrift(sdir, odir, tbin, "java", opts, out.log, str.cacheDirectory / "thirft")
+          compileThrift(sdir, odir, tbin, "java", opts, out.log, str.cacheDirectory / "thrift")
         } else {
           Seq[File]()
         }
